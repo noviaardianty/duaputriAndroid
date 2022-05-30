@@ -3,7 +3,7 @@ import { FlatList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react
 import ItemComponent from '../../komponen/item.component';
 import api from '../../konfig/api';
 import { formatRupiah } from '../../konfig/rupiah';
-
+import { MaterialIcons } from '@expo/vector-icons';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -21,13 +21,15 @@ const DatabarangScreen = (props) => {
     const [produk, setProduk] = React.useState([]);
 
     React.useEffect(() => {
-        api
-            .get('/produk/api_tampil_all.php')
-            .then(({ data }) => {
-                setProduk(data);
-            })
-            .catch((e) => console.log(e))
+        getData();
     }, [props]);
+
+    const getData = () => api
+    .get('/produk/api_tampil_all.php')
+    .then(({ data }) => {
+        setProduk(data);
+    })
+    .catch((e) => console.log(e));
 
     function dataList({ item }) {
         return (
@@ -99,11 +101,19 @@ const DatabarangScreen = (props) => {
                 borderRadius: 50,
                 alignItems: 'center',
                 justifyContent: 'center',
-            }}>
-                <Text style={{
-                    fontSize: 15,
-                    color: 'white',
-                }}>+</Text>
+            }} onPress={() => props.navigation.navigate('databarangtambah', {
+                callback: () => {
+                    setProduk([]);
+                    setTimeout(() => {
+                        getData();
+                    },  2000);
+                }
+            })}>
+                <MaterialIcons 
+                    name={'add'}
+                    size={30}
+                    color={'white'}
+                />
             </TouchableOpacity>
             </View>
         </View>

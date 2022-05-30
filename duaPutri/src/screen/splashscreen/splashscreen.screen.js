@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
 import { useEffect } from 'react/cjs/react.production.min';
+import { asGetUsername } from '../../konfig/storage';
 
 const logo = require('../../aset/icon/logo.png')
 
@@ -9,8 +10,15 @@ const SCScreen = ({
 }) => {
 
     React.useEffect(() => {
-        setTimeout(() => navigation.replace('loginscreen'), 2000);
+        checkUsername()
     }, []);
+
+    var checkUsername = () => {
+        asGetUsername().then((e) => {
+            if (e.response == "success") setTimeout(() => navigation.replace('berandascreen'), 2000);
+            else setTimeout(() => navigation.replace('loginscreen'), 2000);
+        })
+    }
 
     return (
         <View style={{

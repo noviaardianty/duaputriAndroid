@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ItemComponent from '../../komponen/item.component';
 import api from '../../konfig/api';
+import { MaterialIcons } from '@expo/vector-icons'
 
 const styles = StyleSheet.create({
     container: {
@@ -92,14 +93,23 @@ const SuplierScreen = (props) => {
                     borderRadius: 50,
                     alignItems: 'center',
                     justifyContent: 'center',
-                }}>
-                    <Text style={{
-                        fontSize: 15,
-                        color: 'white',
-                    }}>+</Text>
+                }} onPress={() => props.navigation.navigate('supliertambah', {
+                    callback: () => {
+                        setProduk([]);
+                        setTimeout(() => {
+                            getData();
+                        },  2000);
+                    }
+                })}>
+                    <MaterialIcons 
+                    name={'add'}
+                    size={30}
+                    color={'white'}
+                />
                 </TouchableOpacity>
             </View>
         </View>
     );
+    
 }
 export default SuplierScreen
